@@ -185,7 +185,7 @@
     };
 
     try {
-      const res = await fetch('/api/submit', {
+  const res = await fetch('https://bomcel.vercel.app/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -202,8 +202,11 @@
     } catch (err) {
       alert('There was an error submitting the form.');
       console.error(err);
+    
     }
+    
   });
+  
 </script>
 
 </body>
