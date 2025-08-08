@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Business Waitlist Form</title>
+<style>
+  /* Colors */
+  :root {
+    --deep-navy: #0B1E36;
+    --sky-blue: #00B4D8;
+    --teal-blue: #0077B6;
+    --white: #FFFFFF;
+    --light-gray: #F5F7FA;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--deep-navy);
+    color: var(--white);
+    margin: 0; padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  form {
+    background: var(--light-gray);
+    color: var(--deep-navy);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+    color: var(--deep-navy);
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+    border: 1.5px solid var(--teal-blue);
+    border-radius: 4px;
+    font-size: 1rem;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+
+  small {
+    display: block;
+    margin-top: -0.75rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--deep-navy);
+  }
+
+  button {
+    background-color: var(--sky-blue);
+    border: none;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: var(--teal-blue);
+  }
+
+  /* Responsive */
+  @media (max-width: 520px) {
+    form {
+      padding: 1rem;
+      margin: 0 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<form id="waitlistForm" novalidate>
+  <h1>Join Our Business Waitlist</h1>
+
+  <!-- Essentials -->
+  <label for="businessName">Business Name *</label>
+  <input id="businessName" name="businessName" type="text" required />
+  <small>Official name of your business</small>
+
+  <label for="contactPerson">Contact Person’s Full Name *</label>
+  <input id="contactPerson" name="contactPerson" type="text" required />
+  <small>Who should we reach out to?</small>
+
+  <label for="email">Business Email Address *</label>
+  <input id="email" name="email" type="email" required />
+  <small>For important updates and news</small>
+
+  <label for="whatsapp">WhatsApp Number *</label>
+  <input id="whatsapp" name="whatsapp" type="tel" pattern="^\+?\d{7,15}$" placeholder="+1234567890" required />
+  <small>Include country code, e.g. +234...</small>
+
+  <!-- Business Profile -->
+  <label for="industry">Industry</label>
+  <input id="industry" name="industry" type="text" placeholder="e.g., Retail, Tech, Manufacturing" />
+
+  <label for="businessSize">Business Size</label>
+  <select id="businessSize" name="businessSize" >
+    <option value="" selected disabled>Select size</option>
+    <option value="1-10 employees">1–10 employees</option>
+    <option value="11-50 employees">11–50 employees</option>
+    <option value="51-200 employees">51–200 employees</option>
+    <option value="200+ employees">200+ employees</option>
+  </select>
+
+  <label for="country">Country/Region</label>
+  <input id="country" name="country" type="text" placeholder="e.g., Nigeria" />
+
+  <!-- Product Interest -->
+  <label for="challenge">Main Challenge Your Business Faces</label>
+  <textarea id="challenge" name="challenge" rows="3" placeholder="How can our product help you?"></textarea>
+
+  <label for="launchFormat">Preferred Launch Update Format</label>
+  <select id="launchFormat" name="launchFormat">
+    <option value="" selected disabled>Select channel</option>
+    <option value="Email">Email</option>
+    <option value="WhatsApp">WhatsApp</option>
+    <option value="SMS">SMS</option>
+  </select>
+
+  <!-- VIP Priority -->
+  <label>
+    <input id="vipPriority" name="vipPriority" type="checkbox" />
+    I'm interested in being an early beta tester
+  </label>
+
+  <button type="submit">Join Waitlist</button>
+</form>
+
+<script>
+  const form = document.getElementById('waitlistForm');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = {
+      businessName: form.businessName.value.trim(),
+      contactPerson: form.contactPerson.value.trim(),
+      email: form.email.value.trim(),
+      whatsapp: form.whatsapp.value.trim(),
+      industry: form.industry.value.trim(),
+      businessSize: form.businessSize.value,
+      country: form.country.value.trim(),
+      challenge: form.challenge.value.trim(),
+      launchFormat: form.launchFormat.value,
+      vipPriority: form.vipPriority.checked ? 'Yes' : 'No',
+    };
+
+    try {
+  const res = await fetch('https://bomcel.vercel.app/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const json = await res.json();
+
+      if (res.ok) {
+        alert('Thank you for joining the waitlist!');
+        form.reset();
+      } else {
+        alert(json.error || 'Submission failed.');
+      }
+    } catch (err) {
+      alert('There was an error submitting the form.');
+      console.error(err);
+    
+    }
+    
+  });
+  
+</script>
+
+</body>
+</html>
