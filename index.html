@@ -1,105 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>s
+<head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Business Waitlist Form</title>
 <style>
-  /* Colors */
+  /* Palette */
   :root {
     --deep-navy: #0B1E36;
     --sky-blue: #00B4D8;
     --teal-blue: #0077B6;
     --white: #FFFFFF;
     --light-gray: #F5F7FA;
+    --soft-shadow: rgba(0, 0, 0, 0.12);
+    --input-border: #B0C9D8;
+    --input-focus: #00B4D8;
+    --error-color: #E63946;
+  }
+
+  /* Global Reset & Font */
+  * {
+    box-sizing: border-box;
   }
 
   body {
+    margin: 0;
+    background: linear-gradient(135deg, #0B1E36, #003459);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--deep-navy);
     color: var(--white);
-    margin: 0; padding: 0;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    padding: 1rem;
   }
 
+  /* Form container */
   form {
-    background: var(--light-gray);
+    background: var(--white);
     color: var(--deep-navy);
-    border-radius: 8px;
-    padding: 2rem;
-    max-width: 480px;
+    border-radius: 1rem;
+    padding: 2.5rem 3rem;
     width: 100%;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    max-width: 520px;
+    box-shadow:
+      0 8px 20px var(--soft-shadow),
+      0 0 40px rgba(0, 180, 216, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  form:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 16px 40px var(--soft-shadow),
+      0 0 60px rgba(0, 180, 216, 0.35);
   }
 
+  /* Heading */
   h1 {
-    margin-bottom: 1rem;
-    color: var(--deep-navy);
     text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    font-size: 2.25rem;
+    letter-spacing: 1px;
+    color: var(--teal-blue);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
 
+  /* Label */
   label {
     display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
     font-weight: 600;
+    font-size: 1rem;
   }
 
+  /* Inputs, selects, textarea */
   input[type="text"],
   input[type="email"],
   input[type="tel"],
   select,
   textarea {
     width: 100%;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 1rem;
-    border: 1.5px solid var(--teal-blue);
-    border-radius: 4px;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.4rem;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
     font-size: 1rem;
-    resize: vertical;
     font-family: inherit;
+    color: var(--deep-navy);
+    background: #f9fbfd;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    resize: vertical;
+    box-shadow: inset 0 1px 4px #d6e4f0;
   }
 
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--input-focus);
+    box-shadow: 0 0 6px var(--input-focus);
+    background: #e8f6fb;
+  }
+
+  /* Checkbox style */
   input[type="checkbox"] {
-    margin-right: 0.5rem;
+    accent-color: var(--teal-blue);
+    margin-right: 0.6rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    vertical-align: middle;
+    cursor: pointer;
   }
 
+  /* Checkbox label wrapper */
+  label > input[type="checkbox"] {
+    vertical-align: middle;
+  }
+
+  /* Helper text below inputs */
   small {
     display: block;
-    margin-top: -0.75rem;
-    margin-bottom: 1rem;
+    margin-top: -1rem;
+    margin-bottom: 1.4rem;
     font-weight: 400;
     font-size: 0.85rem;
-    color: var(--deep-navy);
+    color: var(--teal-blue);
+    font-style: italic;
+    user-select: none;
   }
 
-  button {
-    background-color: var(--sky-blue);
+  /* Submit button */
+  button[type="submit"] {
+    background: linear-gradient(90deg, var(--sky-blue), var(--teal-blue));
     border: none;
     color: var(--white);
     font-weight: 700;
-    font-size: 1.1rem;
-    padding: 0.75rem 1.5rem;
+    font-size: 1.2rem;
+    padding: 0.9rem 1.5rem;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 14px rgba(0,180,216,0.6);
+    transition: background 0.3s ease, transform 0.25s ease;
+    user-select: none;
   }
 
-  button:hover {
-    background-color: var(--teal-blue);
+  button[type="submit"]:hover,
+  button[type="submit"]:focus {
+    background: linear-gradient(90deg, var(--teal-blue), var(--sky-blue));
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,180,216,0.75);
+  }
+
+  button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 14px rgba(0,180,216,0.6);
   }
 
   /* Responsive */
-  @media (max-width: 520px) {
+  @media (max-width: 600px) {
     form {
-      padding: 1rem;
-      margin: 0 1rem;
+      padding: 2rem 1.5rem;
+      border-radius: 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
     }
   }
 </style>
+
 </head>
 <body>
 
@@ -211,5 +283,3 @@
 
 </body>
 </html>
-
-
