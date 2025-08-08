@@ -1,8 +1,0 @@
-{
-  "name": "Bomcel",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "googleapis": "^119.0.0"
-  }
-}
