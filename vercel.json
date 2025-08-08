@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/getReviews",
+      "destination": "/api/getReviews.js"
+    },
+   
+    {
+      "source": "/api/submitReview",
+      "destination": "/api/submitReview.js"
+    }
+  ]
+}
+
